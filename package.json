@@ -1,0 +1,17 @@
+{
+  "name": "realworld-microfrontends",
+  "scripts": {
+    "start": "webpack-dev-server --port 8000"
+  },
+  "dependencies": {
+    "@webcomponents/webcomponentsjs": "^2.0.4"
+  },
+  "devDependencies": {
+    "elm": "^0.18.0",
+    "elm-webpack-loader": "^4.5.0",
+    "file-loader": "^1.1.11",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.0.14",
+    "webpack-dev-server": "^3.1.3"
+  }
+}
