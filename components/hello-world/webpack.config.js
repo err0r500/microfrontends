@@ -8,8 +8,8 @@ module.exports = env => {
   return ({
     entry: './src/hello-world.js',
     output: {
-      filename: 'hello-world.js',
-      path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'hello-world.js',
     },
     module: {
       rules: [

@@ -3,7 +3,7 @@ port module Main exposing (..)
 import Html exposing (..)
 import Html.Attributes
 import Html.Events
-import Json.Decode as Json exposing (Decoder)
+import Json.Decode as Json exposing (..)
 
 
 main : Program Json.Value Model Msg
@@ -92,5 +92,9 @@ view model =
             , Html.Events.onMouseOver <| AttributesChange { color = "red" }
             ]
             []
-        , helloWorld [] []
+        , helloWorld
+            [ Html.Attributes.attribute "mytext" (toString model.count)
+            , Html.Events.on "byten" (Json.succeed <| UpdateCounter 100)
+            ]
+            []
         ]
