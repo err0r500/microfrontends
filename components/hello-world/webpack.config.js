@@ -23,7 +23,7 @@ module.exports = env => {
     plugins: [
       new UglifyJSPlugin(),
       new HtmlWebpackPlugin({
-        template: path.join(__dirname, 'public', 'hello-world.html'),
+        template: path.join(__dirname, 'src', 'hello-world.html'),
         filename: 'hello-world.html',
         inlineSource: '.js$',
       }),
