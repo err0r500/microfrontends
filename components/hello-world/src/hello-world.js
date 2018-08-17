@@ -5,8 +5,9 @@ class HelloWorld extends HTMLElement {
         const shadowRootEl = this.attachShadow({mode: 'open'});
         shadowRootEl.innerHTML = `<div class="status">Hello World</div>`;
 
-        this.hasAttribute('mytext') ? this.updateContent(this.getAttribute("mytext")) : this.updateContent("hey I'm the default text");
-
+        if (!this.hasAttribute('mytext')) {
+            this.updateContent("hey I'm the default text");
+        }
     }
 
     static get observedAttributes() {
@@ -14,23 +15,14 @@ class HelloWorld extends HTMLElement {
     }
 
     connectedCallback() {
-        let _this = this;
-
-        this.shadowRoot.querySelector('.status').addEventListener('click', function () {
-            _this.emitCustom()
-        })
-    }
-
-    emitCustom() {
-        this.dispatchEvent(new CustomEvent("byten", {
+        let emitCustom = this.dispatchEvent(new CustomEvent("customEvent", {
             bubbles: true,
             cancelable: false,
-        }))
-    }
+        }));
 
-
-    updateContent(newContent) {
-        this.shadowRoot.querySelector('.status').innerHTML = newContent
+        this.shadowRoot.querySelector('.status').addEventListener('click', function () {
+            emitCustom
+        })
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -41,6 +33,10 @@ class HelloWorld extends HTMLElement {
         if (name === 'mytext') {
             this.updateContent(newValue)
         }
+    }
+
+    updateContent(newContent) {
+        this.shadowRoot.querySelector('.status').innerHTML = newContent
     }
 }
 

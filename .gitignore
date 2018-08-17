@@ -2,3 +2,4 @@ node_modules
 elm-stuff
 bower_components
 .idea
+build
