@@ -27,7 +27,10 @@ initialState attrs =
     ( { count = 0
       , color = "black"
       }
-    , loadWebComponent "mwc-button"
+    , Cmd.batch
+        [ loadWebComponent "mwc-button"
+        , loadWebComponent "hello-world"
+        ]
     )
 
 
@@ -64,6 +67,11 @@ wcButton =
     Html.node "mwc-button"
 
 
+helloWorld : List (Html.Attribute a) -> List (Html a) -> Html a
+helloWorld =
+    Html.node "hello-world"
+
+
 port load : String -> Cmd msg
 
 
@@ -76,11 +84,13 @@ view model =
             , Html.Events.onClick <| UpdateCounter 1
             , Html.Events.onMouseOver <| AttributesChange { color = "green" }
             ]
-            [ Html.text "increase in green" ]
+            [ Html.text "slot : increase in green" ]
         , wcButton
             [ Html.Attributes.attribute "raised" "false"
+            , Html.Attributes.attribute "label" "label : decrease in red"
             , Html.Events.onClick <| UpdateCounter -1
             , Html.Events.onMouseOver <| AttributesChange { color = "red" }
             ]
-            [ Html.text "decrease in red" ]
+            []
+        , helloWorld [] []
         ]

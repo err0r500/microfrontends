@@ -15,7 +15,7 @@ module.exports = () => ({
         rules: [
             {
                 test: /\.html$/,
-                exclude: /node_modules/,
+                exclude: [/node_modules/, /bower_components/],
                 loader: 'file-loader?name=[name].[ext]',
             },
             {

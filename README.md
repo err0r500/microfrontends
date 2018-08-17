@@ -9,5 +9,8 @@ npm run start
 ```
 
 ## Motivation
-Elm is a quite powerful language when dealing with data complexity. Unfortunately not much frontend developers are comfortable with it.
+Elm is a quite powerful language when dealing with data complexity. Unfortunately not many frontend developers are comfortable with it.
 
+Webcomponents allow different teams to build dumb components (display data, emmit events, style) in the framework they prefer and ship them as webcomponents. 
+
+Elm only is used to integrate all the components together.
