@@ -15,13 +15,13 @@ class HelloWorld extends HTMLElement {
     }
 
     connectedCallback() {
-        let emitCustom = this.dispatchEvent(new CustomEvent("customEvent", {
-            bubbles: true,
-            cancelable: false,
-        }));
+        let _this = this;
 
         this.shadowRoot.querySelector('.status').addEventListener('click', function () {
-            emitCustom
+            _this.dispatchEvent(new CustomEvent("customEvent", {
+                bubbles: true,
+                cancelable: false,
+            }));
         })
     }
 

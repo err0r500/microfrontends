@@ -94,7 +94,7 @@ view model =
             []
         , helloWorld
             [ Html.Attributes.attribute "mytext" (toString model.count)
-            , Html.Events.on "byten" (Json.succeed <| UpdateCounter 100)
+            , Html.Events.on "customEvent" (Json.succeed <| UpdateCounter 100)
             ]
             []
         ]
