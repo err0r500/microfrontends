@@ -33,7 +33,8 @@ initialState attrs =
       }
     , Cmd.batch
         [ loadWebComponent "mwc-button"
-        , loadWebComponent "hello-world"
+        , loadWebComponent "react-hello-world"
+        , loadWebComponent "wc-hello-world"
         ]
     )
 
@@ -60,13 +61,13 @@ update msg model =
             { model | color = attributes.color } ! []
 
 
-wcButton : List (Html.Attribute a) -> List (Html a) -> Html a
-wcButton =
-    Html.node "mwc-button"
+vanillaComponent : List (Html.Attribute a) -> List (Html a) -> Html a
+vanillaComponent =
+    Html.node "wc-hello-world"
 
 
-helloWorld : List (Html.Attribute a) -> List (Html a) -> Html a
-helloWorld =
+reactComponent : List (Html.Attribute a) -> List (Html a) -> Html a
+reactComponent =
     Html.node "react-hello-world"
 
 
@@ -74,27 +75,26 @@ view : Model -> Html Msg
 view model =
     Html.div
         [ Html.Attributes.style
-            [ ( "color", model.color )
-            , ( "font-size", "30px" )
+            [ ( "font-size", "30px" )
             , ( "text-align", "center" )
             ]
         ]
-        [ Html.div [] [ Html.text <| toString model.count ]
-        , wcButton
-            [ Html.Attributes.attribute "raised" "true"
-            , Html.Events.onClick <| UpdateCounter 1
-            , Html.Events.onMouseOver <| AttributesChange { color = "green" }
+        [ Html.div
+            [ Html.Attributes.style
+                [ ( "background-color", "green" )
+                ]
             ]
-            [ Html.text "slot : increase in green" ]
-        , wcButton
-            [ Html.Attributes.attribute "raised" "false"
-            , Html.Attributes.attribute "label" "label : decrease in red"
-            , Html.Events.onClick <| UpdateCounter -1
-            , Html.Events.onMouseOver <| AttributesChange { color = "red" }
+            [ h2 [] [ Html.text "elm" ]
+            , button [ Html.Events.onClick <| UpdateCounter -5 ] [ Html.text "Click me to decrement by 5" ]
+            , p [] [ Html.text "Counter = ", span [] [ Html.text <| toString model.count ] ]
+            ]
+        , vanillaComponent
+            [ Html.Attributes.attribute "counter-value" (toString model.count)
+            , Html.Events.onClick <| UpdateCounter 1
             ]
             []
-        , helloWorld
-            [ Html.Attributes.attribute "mytext" (toString model.count)
+        , reactComponent
+            [ Html.Attributes.attribute "countervalue" (toString model.count)
             , Html.Events.on "custom-event" (Json.succeed <| UpdateCounter 100)
             ]
             []

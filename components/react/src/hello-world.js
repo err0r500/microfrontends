@@ -7,10 +7,10 @@ class App extends React.Component {
     }
 
     render() {
-        return (<div onClick={this.props.customEvent}>
-            <p>React Component</p>
-            <a>Hello, world!</a>
-            <h2>Counter = {this.props.mytext}</h2>
+        return (<div style={{backgroundColor: "red"}}>
+            <h2>React</h2>
+            <button onClick={this.props.customEvent}>Click me to increment by 100</button>
+            <p>Counter = {this.props.countervalue}</p>
         </div>)
     }
 }
@@ -18,6 +18,6 @@ class App extends React.Component {
 register(
     App,
     'react-hello-world',
-    ['mytext'],
+    ['countervalue'],
     {customEvent: () => new Event('custom-event', { bubbles: true })}
     );

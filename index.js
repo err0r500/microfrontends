@@ -37,9 +37,11 @@ function appendLink(href) {
 app.ports.loadWebComponent.subscribe(function(componentToLoad) {
     switch (componentToLoad) {
         case "mwc-button":
-            appendScript("https://unpkg.com/@material/mwc-button@^0.1.0/mwc-button.js?module")
-        case "hello-world":
-            appendLink("components/react/dist/react-hello-world.html")
+            appendScript("https://unpkg.com/@material/mwc-button@^0.1.0/mwc-button.js?module");
+        case "react-hello-world":
+            appendLink("components/react/dist/hello-world.html");
+        case "wc-hello-world":
+            appendLink("components/vanilla/dist/hello-world.html")
     }
 });
 

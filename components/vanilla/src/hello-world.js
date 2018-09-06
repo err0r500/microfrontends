@@ -3,21 +3,25 @@ class HelloWorld extends HTMLElement {
         super();
 
         const shadowRootEl = this.attachShadow({mode: 'open'});
-        shadowRootEl.innerHTML = `<div class="status">Hello World</div>`;
+        shadowRootEl.innerHTML = `<div>
+        <h2>Vanilla</h2>
+        <button id="increment">Click me to increment by 1</button>
+        <p>Counter = <span class="status"/></p>
+        </div>`;
 
-        if (!this.hasAttribute('mytext')) {
+        if (!this.hasAttribute('counter-value')) {
             this.updateContent("hey I'm the default text");
         }
     }
 
     static get observedAttributes() {
-        return ['mytext'];
+        return ['counter-value'];
     }
 
     connectedCallback() {
         let _this = this;
 
-        this.shadowRoot.querySelector('.status').addEventListener('click', function () {
+        this.shadowRoot.querySelector('#increment').addEventListener('click', function () {
             _this.dispatchEvent(new CustomEvent("customEvent", {
                 bubbles: true,
                 cancelable: false,
@@ -30,7 +34,7 @@ class HelloWorld extends HTMLElement {
             return
         }
 
-        if (name === 'mytext') {
+        if (name === 'counter-value') {
             this.updateContent(newValue)
         }
     }
@@ -40,4 +44,4 @@ class HelloWorld extends HTMLElement {
     }
 }
 
-window.customElements.define('hello-world', HelloWorld);
+window.customElements.define('wc-hello-world', HelloWorld);

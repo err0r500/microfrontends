@@ -8,7 +8,7 @@ module.exports = env => {
     entry: './src/hello-world.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'react-hello-world.js',
+        filename: 'hello-world.js',
     },
     module: {
       rules: [
@@ -22,7 +22,7 @@ module.exports = env => {
     plugins: [
       new HtmlWebpackPlugin({
         template: path.join(__dirname, 'src', 'hello-world.html'),
-        filename: 'react-hello-world.html',
+        filename: 'hello-world.html',
         inlineSource: '.js$',
       }),
       new HtmlWebpackInlineSourcePlugin(),
