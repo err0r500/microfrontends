@@ -18,23 +18,17 @@ main =
 
 type alias Model =
     { count : Int
-    , color : String
     }
-
-
-type alias Attributes =
-    { color : String }
 
 
 initialState : Json.Value -> ( Model, Cmd Msg )
 initialState attrs =
     ( { count = 0
-      , color = "black"
       }
     , Cmd.batch
-        [ loadWebComponent "mwc-button"
+        [ loadWebComponent "vue-hello-world"
         , loadWebComponent "react-hello-world"
-        , loadWebComponent "wc-hello-world"
+        , loadWebComponent "vanilla-hello-world"
         ]
     )
 
@@ -42,7 +36,6 @@ initialState attrs =
 type Msg
     = UpdateCounter Int
     | LoadComponent String
-    | AttributesChange Attributes
 
 
 port loadWebComponent : String -> Cmd msg
@@ -57,18 +50,20 @@ update msg model =
         UpdateCounter by ->
             { model | count = model.count + by } ! []
 
-        AttributesChange attributes ->
-            { model | color = attributes.color } ! []
-
 
 vanillaComponent : List (Html.Attribute a) -> List (Html a) -> Html a
 vanillaComponent =
-    Html.node "wc-hello-world"
+    Html.node "vanilla-hello-world"
 
 
 reactComponent : List (Html.Attribute a) -> List (Html a) -> Html a
 reactComponent =
     Html.node "react-hello-world"
+
+
+vueComponent : List (Html.Attribute a) -> List (Html a) -> Html a
+vueComponent =
+    Html.node "vue-hello-world"
 
 
 view : Model -> Html Msg
@@ -81,11 +76,11 @@ view model =
         ]
         [ Html.div
             [ Html.Attributes.style
-                [ ( "background-color", "green" )
+                [ ( "background-color", "#BE6C84" )
                 ]
             ]
             [ h2 [] [ Html.text "elm" ]
-            , button [ Html.Events.onClick <| UpdateCounter -5 ] [ Html.text "Click me to decrement by 5" ]
+            , button [ Html.Events.onClick <| UpdateCounter 5 ] [ Html.text "Click me to increment by 5" ]
             , p [] [ Html.text "Counter = ", span [] [ Html.text <| toString model.count ] ]
             ]
         , vanillaComponent
@@ -96,6 +91,11 @@ view model =
         , reactComponent
             [ Html.Attributes.attribute "countervalue" (toString model.count)
             , Html.Events.on "custom-event" (Json.succeed <| UpdateCounter 100)
+            ]
+            []
+        , vueComponent
+            [ Html.Attributes.attribute "countervalue" (toString model.count)
+            , Html.Events.on "custom-event" (Json.succeed <| UpdateCounter -5)
             ]
             []
         ]

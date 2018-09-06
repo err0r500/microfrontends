@@ -3,11 +3,7 @@ class HelloWorld extends HTMLElement {
         super();
 
         const shadowRootEl = this.attachShadow({mode: 'open'});
-        shadowRootEl.innerHTML = `<div>
-        <h2>Vanilla</h2>
-        <button id="increment">Click me to increment by 1</button>
-        <p>Counter = <span class="status"/></p>
-        </div>`;
+        shadowRootEl.innerHTML = `<div style="background-color: #F6B192"><h2>Vanilla</h2><button id="increment">Click me to increment by 1</button><p>Counter = <span class="status"/></p></div>`;
 
         if (!this.hasAttribute('counter-value')) {
             this.updateContent("hey I'm the default text");
@@ -44,4 +40,4 @@ class HelloWorld extends HTMLElement {
     }
 }
 
-window.customElements.define('wc-hello-world', HelloWorld);
+window.customElements.define('vanilla-hello-world', HelloWorld);

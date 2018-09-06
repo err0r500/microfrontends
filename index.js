@@ -36,12 +36,12 @@ function appendLink(href) {
 // subscription to the load out port from elm
 app.ports.loadWebComponent.subscribe(function(componentToLoad) {
     switch (componentToLoad) {
-        case "mwc-button":
-            appendScript("https://unpkg.com/@material/mwc-button@^0.1.0/mwc-button.js?module");
+        case "vanilla-hello-world":
+            appendLink("components/vanilla/dist/hello-world.html");
         case "react-hello-world":
             appendLink("components/react/dist/hello-world.html");
-        case "wc-hello-world":
-            appendLink("components/vanilla/dist/hello-world.html")
+        case "vue-hello-world":
+            appendScript("components/vue/dist/vue-hello-world.js");
     }
 });
 
