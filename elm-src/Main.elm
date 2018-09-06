@@ -22,6 +22,10 @@ type alias Model =
     }
 
 
+type alias Attributes =
+    { color : String }
+
+
 initialState : Json.Value -> ( Model, Cmd Msg )
 initialState attrs =
     ( { count = 0
@@ -34,14 +38,13 @@ initialState attrs =
     )
 
 
-type alias Attributes =
-    { color : String }
-
-
 type Msg
     = UpdateCounter Int
     | LoadComponent String
     | AttributesChange Attributes
+
+
+port loadWebComponent : String -> Cmd msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -57,11 +60,6 @@ update msg model =
             { model | color = attributes.color } ! []
 
 
-loadWebComponent : String -> Cmd Msg
-loadWebComponent str =
-    load str
-
-
 wcButton : List (Html.Attribute a) -> List (Html a) -> Html a
 wcButton =
     Html.node "mwc-button"
@@ -69,15 +67,18 @@ wcButton =
 
 helloWorld : List (Html.Attribute a) -> List (Html a) -> Html a
 helloWorld =
-    Html.node "hello-world"
-
-
-port load : String -> Cmd msg
+    Html.node "react-hello-world"
 
 
 view : Model -> Html Msg
 view model =
-    Html.div [ Html.Attributes.style [ ( "color", model.color ), ( "font-size", "30px" ), ( "text-align", "center" ) ] ]
+    Html.div
+        [ Html.Attributes.style
+            [ ( "color", model.color )
+            , ( "font-size", "30px" )
+            , ( "text-align", "center" )
+            ]
+        ]
         [ Html.div [] [ Html.text <| toString model.count ]
         , wcButton
             [ Html.Attributes.attribute "raised" "true"
@@ -94,7 +95,7 @@ view model =
             []
         , helloWorld
             [ Html.Attributes.attribute "mytext" (toString model.count)
-            , Html.Events.on "customEvent" (Json.succeed <| UpdateCounter 100)
+            , Html.Events.on "custom-event" (Json.succeed <| UpdateCounter 100)
             ]
             []
         ]

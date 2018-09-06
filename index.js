@@ -33,15 +33,13 @@ function appendLink(href) {
     document.head.appendChild(link);
 }
 
-
-
 // subscription to the load out port from elm
-app.ports.load.subscribe(function(componentToLoad) {
+app.ports.loadWebComponent.subscribe(function(componentToLoad) {
     switch (componentToLoad) {
         case "mwc-button":
             appendScript("https://unpkg.com/@material/mwc-button@^0.1.0/mwc-button.js?module")
         case "hello-world":
-            appendLink("components/hello-world/dist/hello-world.html")
+            appendLink("components/react/dist/react-hello-world.html")
     }
 });
 
