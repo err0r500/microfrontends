@@ -4,8 +4,6 @@
     "start": "webpack-dev-server"
   },
   "dependencies": {
-    "@material/mwc-button": "^0.1.2",
-    "@material/select": "^0.38.1",
     "@webcomponents/webcomponentsjs": "^2.0.4",
     "react-web-component": "^1.0.14"
   },

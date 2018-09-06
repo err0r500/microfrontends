@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import wrap from '@vue/web-component-wrapper';
-import VueWebComponent from './components/HelloWorld';
+import VueWebComponent from './HelloWorld';
 
 const helloWorld = wrap(Vue, VueWebComponent);
 

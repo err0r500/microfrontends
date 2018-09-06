@@ -3,11 +3,12 @@ class HelloWorld extends HTMLElement {
         super();
 
         const shadowRootEl = this.attachShadow({mode: 'open'});
-        shadowRootEl.innerHTML = `<div style="background-color: #F6B192"><h2>Vanilla</h2><button id="increment">Click me to increment by 1</button><p>Counter = <span class="status"/></p></div>`;
-
-        if (!this.hasAttribute('counter-value')) {
-            this.updateContent("hey I'm the default text");
-        }
+        shadowRootEl.innerHTML = `
+            <div style="background-color: #F6B192">
+                <h2>Vanilla</h2>
+                <button id="increment">Click me to increment by 1</button>
+                <p>Counter = <span class="status"/></p>
+            </div>`;
     }
 
     static get observedAttributes() {
@@ -30,13 +31,10 @@ class HelloWorld extends HTMLElement {
             return
         }
 
-        if (name === 'counter-value') {
-            this.updateContent(newValue)
+        switch (name) {
+            case 'counter-value':
+                this.shadowRoot.querySelector('.status').innerHTML = newValue
         }
-    }
-
-    updateContent(newContent) {
-        this.shadowRoot.querySelector('.status').innerHTML = newContent
     }
 }
 
