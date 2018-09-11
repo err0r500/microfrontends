@@ -44,4 +44,3 @@ app.ports.loadWebComponent.subscribe(function(componentToLoad) {
             appendScript("components/vue/dist/vue-hello-world.js");
     }
 });
-

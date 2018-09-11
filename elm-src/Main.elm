@@ -3,10 +3,10 @@ port module Main exposing (..)
 import Html exposing (..)
 import Html.Attributes
 import Html.Events
-import Json.Decode as Json exposing (..)
+import Json.Decode as JD exposing (..)
 
 
-main : Program Json.Value Model Msg
+main : Program JD.Value Model Msg
 main =
     Html.programWithFlags
         { init = initialState
@@ -18,12 +18,14 @@ main =
 
 type alias Model =
     { count : Int
+    , checkList : List String
     }
 
 
-initialState : Json.Value -> ( Model, Cmd Msg )
+initialState : JD.Value -> ( Model, Cmd Msg )
 initialState attrs =
     ( { count = 0
+      , checkList = [ "item0", "item1", "item2", "item3" ]
       }
     , Cmd.batch
         [ loadWebComponent "vue-hello-world"
@@ -36,6 +38,8 @@ initialState attrs =
 type Msg
     = UpdateCounter Int
     | LoadComponent String
+    | AppendToChecklist String
+    | DeleteFromCheckList EventPayload
 
 
 port loadWebComponent : String -> Cmd msg
@@ -49,6 +53,21 @@ update msg model =
 
         UpdateCounter by ->
             { model | count = model.count + by } ! []
+
+        AppendToChecklist str ->
+            { model | checkList = model.checkList ++ [ str ] } ! []
+
+        DeleteFromCheckList indexList ->
+            let
+                firstIndex =
+                    List.head indexList.detail
+            in
+                case firstIndex of
+                    Nothing ->
+                        ( model, Cmd.none )
+
+                    Just index ->
+                        { model | checkList = (List.take (index) model.checkList) ++ (List.drop (index + 1) model.checkList) } ! []
 
 
 vanillaComponent : List (Html.Attribute a) -> List (Html a) -> Html a
@@ -74,28 +93,69 @@ view model =
             , ( "text-align", "center" )
             ]
         ]
-        [ Html.div
-            [ Html.Attributes.style
-                [ ( "background-color", "#BE6C84" )
+        [ Html.div [ floatLeftCol ]
+            [ elmDiv model
+            ]
+        , Html.div [ floatLeftCol ]
+            [ vanillaComponent
+                [ Html.Attributes.attribute "counter-value" (toString model.count)
+                , Html.Attributes.attribute "checklist-value" (toString model.checkList)
+                , Html.Events.onClick <| UpdateCounter 1
                 ]
+                []
             ]
-            [ h2 [] [ Html.text "elm" ]
-            , button [ Html.Events.onClick <| UpdateCounter 5 ] [ Html.text "Click me to increment by 5" ]
-            , p [] [ Html.text "Counter = ", span [] [ Html.text <| toString model.count ] ]
+        , Html.div [ floatLeftCol ]
+            [ reactComponent
+                [ Html.Attributes.attribute "countervalue" (toString model.count)
+                , Html.Attributes.attribute "checklistvalue" (toString model.checkList)
+                , Html.Events.on "custom-event" (JD.succeed <| UpdateCounter 100)
+                , Html.Events.on "delete-item" (JD.map DeleteFromCheckList eventDecoder)
+                ]
+                []
             ]
-        , vanillaComponent
-            [ Html.Attributes.attribute "counter-value" (toString model.count)
-            , Html.Events.onClick <| UpdateCounter 1
+        , Html.div [ floatLeftCol ]
+            [ vueComponent
+                [ Html.Attributes.attribute "countervalue" (toString model.count)
+                , Html.Attributes.attribute "checklistvalue" (toString model.checkList)
+                , Html.Events.on "counter-event" (JD.succeed <| UpdateCounter -5)
+                , Html.Events.on "delete-item" (JD.map DeleteFromCheckList eventDecoder)
+                ]
+                []
             ]
-            []
-        , reactComponent
-            [ Html.Attributes.attribute "countervalue" (toString model.count)
-            , Html.Events.on "custom-event" (Json.succeed <| UpdateCounter 100)
+        ]
+
+
+type alias EventPayload =
+    { detail : List Int -- Vue passes an array in the detail field, so in order to don't be too complex, all the other events use this format
+    }
+
+
+eventDecoder : Decoder EventPayload
+eventDecoder =
+    JD.map EventPayload (field "detail" (list int))
+
+
+floatLeftCol : Html.Attribute Msg
+floatLeftCol =
+    Html.Attributes.style
+        [ ( "float", "left" )
+        , ( "width", "25%" )
+        ]
+
+
+elmDiv : Model -> Html Msg
+elmDiv model =
+    Html.div
+        [ Html.Attributes.style
+            [ ( "background-color", "#BE6C84" )
             ]
-            []
-        , vueComponent
-            [ Html.Attributes.attribute "countervalue" (toString model.count)
-            , Html.Events.on "custom-event" (Json.succeed <| UpdateCounter -5)
-            ]
-            []
+        ]
+        [ h2 [] [ Html.text "elm" ]
+        , ul []
+            (List.indexedMap
+                (\index str -> li [ Html.Events.onClick <| DeleteFromCheckList (EventPayload [ index ]) ] [ text str ])
+                model.checkList
+            )
+        , button [ Html.Events.onClick <| UpdateCounter 5 ] [ Html.text "Click me to increment by 5" ]
+        , p [] [ Html.text "Counter = ", span [] [ Html.text <| toString model.count ] ]
         ]
