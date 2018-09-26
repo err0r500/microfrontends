@@ -1,7 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 
 module.exports = env => {
   return ({
@@ -20,12 +18,6 @@ module.exports = env => {
       ],
     },
     plugins: [
-      new HtmlWebpackPlugin({
-        template: path.join(__dirname, 'src', 'hello-world.html'),
-        filename: 'hello-world.html',
-        inlineSource: '.js$',
-      }),
-      new HtmlWebpackInlineSourcePlugin(),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
       }),
