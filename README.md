@@ -3,6 +3,8 @@
 ## Demo
 ![Interactions](https://raw.githubusercontent.com/err0r500/microfrontends/master/demo.gif)
 
+3 webcomponents (vanilla, React & Vue) are managed by a main Elm logic (providing data and event Handlers)
+
 ## Test the app
 ```bash
 git clone git@github.com:err0r500/microfrontends.git
@@ -12,8 +14,9 @@ npm run start
 ```
 
 ## Motivation
-Elm is a quite powerful language when dealing with data complexity. Unfortunately not many frontend developers are comfortable with it.
+Build dumb components in whatever framework you're comfortable with and let Elm shine with the app's logic
 
-Webcomponents allow different teams to build dumb components (display data, emmit events, style) in the framework they prefer and ship them as webcomponents. 
-
-Elm only is used to integrate all the components together.
+## Notes
+- the detail field in the dispatchEvent methods is an array for every component because it's enforced with the Vue wrapper 
+so we don't have to provide different event decoders in Elm.
+- injects dynamically scripts in head (html imports are deprecated)
