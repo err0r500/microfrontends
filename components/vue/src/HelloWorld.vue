@@ -15,7 +15,7 @@
         props: ['countervalue', 'checklistvalue'],
         computed: {
             checklist: function () {
-                return JSON.parse(this.checklistvalue || "")
+                return JSON.parse(this.checklistvalue || [])
             }
         }
     }
