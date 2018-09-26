@@ -100,7 +100,8 @@ view model =
             [ vanillaComponent
                 [ Html.Attributes.attribute "counter-value" (toString model.count)
                 , Html.Attributes.attribute "checklist-value" (toString model.checkList)
-                , Html.Events.onClick <| UpdateCounter 1
+                , Html.Events.on "counter-event" (JD.succeed <| UpdateCounter 1)
+                , Html.Events.on "delete-item" (JD.map DeleteFromCheckList eventDecoder)
                 ]
                 []
             ]
