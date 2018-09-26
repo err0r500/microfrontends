@@ -19,28 +19,17 @@ function appendScript(src) {
     document.head.appendChild(link);
 }
 
-function appendLink(href) {
-    var links = document.getElementsByTagName("link");
-    for(var i = 0; i < links.length; i++) {
-        if (links[i].href.indexOf(href) !== -1 ) {
-            return
-        }
-    }
-
-    let link = document.createElement('link');
-    link.setAttribute('rel', 'import');
-    link.setAttribute('href', href);
-    document.head.appendChild(link);
-}
-
 // subscription to the load out port from elm
-app.ports.loadWebComponent.subscribe(function(componentToLoad) {
+app.ports.loadWebComponent.subscribe(function (componentToLoad) {
     switch (componentToLoad) {
         case "vanilla-hello-world":
-            appendLink("components/vanilla/dist/hello-world.html");
+            appendScript("components/vanilla/dist/hello-world.js");
+            break;
         case "react-hello-world":
-            appendLink("components/react/dist/hello-world.html");
+            appendScript("components/react/dist/hello-world.js");
+            break;
         case "vue-hello-world":
             appendScript("components/vue/dist/vue-hello-world.js");
+            break;
     }
 });
