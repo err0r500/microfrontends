@@ -1,5 +1,8 @@
 # Microfrontends with Elm and webcomponents
 
+## Demo
+![Interactions](https://raw.githubusercontent.com/err0r500/microfrontends/master/demo.gif)
+
 ## Test the app
 ```bash
 git clone git@github.com:err0r500/microfrontends.git
